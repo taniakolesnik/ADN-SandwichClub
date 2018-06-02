@@ -12,6 +12,8 @@ import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -74,9 +76,20 @@ public class DetailActivity extends AppCompatActivity {
         descriptionTextView.setText(sandwich.getDescription());
         if (sandwich.getAlsoKnownAs().size() == 0){
             alsoKnownLabelTextView.setVisibility(View.GONE);
+            alsoKnownTextView.setVisibility(View.GONE);
         } else {
-            alsoKnownTextView.setText(sandwich.getAlsoKnownAs().toString());
+            alsoKnownTextView.setText(convertArrayToString(sandwich.getAlsoKnownAs()));
         }
-       ingredientsTextView.setText(sandwich.getIngredients().toString());
+
+       ingredientsTextView.setText(convertArrayToString(sandwich.getIngredients()));
+    }
+
+    private String convertArrayToString(List<String> array){
+        StringBuilder builder = new StringBuilder();
+        for (String value : array) {
+            builder.append(","+ value);
+        }
+        builder.deleteCharAt(0);
+        return builder.toString();
     }
 }

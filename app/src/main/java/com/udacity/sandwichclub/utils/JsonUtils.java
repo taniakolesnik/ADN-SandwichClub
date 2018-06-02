@@ -26,6 +26,8 @@ public class JsonUtils {
             List<String> alsoKnownAsList = new ArrayList<>();
             for (int i = 0; i < alsoKnownAsJSONArray.length(); i++){
                 alsoKnownAsList.add(alsoKnownAsJSONArray.getString(i));
+                Log.i("Details"," alsoKnownAsJSONArray:" +alsoKnownAsJSONArray.toString()
+                        + " \nalsoKnownAsList :" + alsoKnownAsList);
             }
             // get placeOfOrigin, description and image
             String placeOfOrigin = jsonObject.getString("placeOfOrigin");

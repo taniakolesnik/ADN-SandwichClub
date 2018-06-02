@@ -3,6 +3,8 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,13 +21,14 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private static final String TAG = "DetailActivity";
+
     @BindView(R.id.origin_tv) TextView originTextView;
+    @BindView(R.id.origin_label_tv) TextView originLabelTextView;
     @BindView(R.id.description_tv) TextView descriptionTextView;
     @BindView(R.id.also_known_tv) TextView alsoKnownTextView;
-    @BindView(R.id.ingredients_tv) TextView ingredientsTextView;
     @BindView(R.id.also_known_label_tv) TextView alsoKnownLabelTextView;
-
-
+    @BindView(R.id.ingredients_tv) TextView ingredientsTextView;
 
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
@@ -72,16 +75,30 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(Sandwich sandwich) {
-        originTextView.setText(sandwich.getPlaceOfOrigin());
-        descriptionTextView.setText(sandwich.getDescription());
-        if (sandwich.getAlsoKnownAs().size() == 0){
+
+        String placeOfOrigin = sandwich.getPlaceOfOrigin();
+        Log.i(TAG, "placeOfOrigin is " + placeOfOrigin);
+        String description = sandwich.getDescription();
+        List<String> alsoKnownAs = sandwich.getAlsoKnownAs();
+        List<String> ingredients = sandwich.getIngredients();
+
+        if (TextUtils.isEmpty(placeOfOrigin)){
+            originLabelTextView.setVisibility(View.GONE);
+            originTextView.setVisibility(View.GONE);
+        } else {
+            originTextView.setText(placeOfOrigin);
+        }
+
+        descriptionTextView.setText(description);
+
+        if (alsoKnownAs.size() == 0){
             alsoKnownLabelTextView.setVisibility(View.GONE);
             alsoKnownTextView.setVisibility(View.GONE);
         } else {
-            alsoKnownTextView.setText(convertArrayToString(sandwich.getAlsoKnownAs()));
+            alsoKnownTextView.setText(convertArrayToString(alsoKnownAs));
         }
 
-       ingredientsTextView.setText(convertArrayToString(sandwich.getIngredients()));
+        ingredientsTextView.setText(convertArrayToString(ingredients));
     }
 
     private String convertArrayToString(List<String> array){
